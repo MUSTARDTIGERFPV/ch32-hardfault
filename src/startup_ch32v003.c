@@ -127,17 +127,17 @@ void handle_reset()
 
 	// Careful: Use registers to prevent overwriting of self-data.
 	// This clears out BSS.
-	register uint32_t * tempout = _sbss;
-	register uint32_t * tempend = _ebss;
+	register uint32_t * tempout = (uint32_t*)&_sbss;
+	register uint32_t * tempend = (uint32_t*)&_ebss;
 	while( tempout < tempend )
 		*(tempout++) = 0;
 
 	// Once we get here, it should be safe to execute regular C code.
 
 	// Load data section from flash to RAM 
-	register uint32_t * tempin = _data_lma;
-	tempout = _data_vma;
-	tempend = _edata;
+	register uint32_t * tempin = (uint32_t*)&_data_lma;
+	tempout = (uint32_t*)&_data_vma;
+	tempend = (uint32_t*)&_edata;
 	while( tempout != tempend )
 		*(tempout++) = *(tempin++); 
 
